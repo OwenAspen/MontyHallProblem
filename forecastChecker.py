@@ -72,17 +72,23 @@ for k in range(len(date_temp)):
 #finding the high and low temp
 all_temps = []
 for t in range(len(yesterday_date_temp)):
-    all_temps.append(yesterday_date_temp[t][6:9])
+    if yesterday_date_temp[t][6:9] =='NA':
+        all_temps.append(yesterday_date_temp[t][6:9])
+    else:
+        all_temps.append(int(yesterday_date_temp[t][6:9]))
 while 'NA' in all_temps:
     all_temps.remove('NA')
-high = max(all_temps)
+high = str(max(all_temps))
 night_temps = []
 for l in range(len(yesterday_date_temp)):
     if int(yesterday_date_temp[l][2:4]) > 11:
-        night_temps.append(yesterday_date_temp[l][6:9])
+        if yesterday_date_temp[l][6:9] == 'NA':
+            night_temps.append(yesterday_date_temp[l][6:9])
+        else:
+            night_temps.append(int(yesterday_date_temp[l][6:9]))
 while 'NA' in night_temps:
     night_temps.remove('NA')
-low = min(night_temps)
+low = str(min(night_temps))
 #checking to see if this data has already been aquired
 check_temps_for_dup = open('C://py//weatherData//past.txt', 'r')
 check_temps_dup_list = check_temps_for_dup.readlines()
