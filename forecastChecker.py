@@ -141,6 +141,9 @@ file1.close()
 file2 = open('C://py//weatherData//future.txt', 'r')
 future_data = file2.readlines()
 file2.close()
+numForecasts = 0
+sumHighError = 0
+sumLowError = 0
 for observation in range(len(past_data)):
     for forecast in range(len(future_data)):
         if past_data[observation][:10] == future_data[forecast][:10]:
@@ -150,7 +153,12 @@ for observation in range(len(past_data)):
             for_low = int(future_data[forecast][15:17])
             high_error = abs(round((obs_high - for_high)/obs_high * 100, 2))
             low_error = abs(round((obs_low - for_low)/obs_low * 100, 2))
-            print(f'{future_data[forecast][:10]}: Forecast high: {for_high}°F Obs high: {obs_high}°F', end = '')
-            print(f' Forecast low: {for_low}°F Obs low: {obs_low}°F')
+            numForecasts += 1
+            sumHighError += high_error
+            sumLowError += low_error
+            print(f'{future_data[forecast][:10]}: Forecast high: {for_high}°F Observed high: {obs_high}°F', end = '')
+            print(f' Forecast low: {for_low}°F Observed low: {obs_low}°F')
             print(f'This is a high temp forecast error of {high_error}%', end='')
             print(f' and a low temp forecast error of {low_error}%\n')
+print(f'This is a cumulative high forecast error of {round(sumHighError / numForecasts, 2)}% ', end = '')
+print(f'and a cumulative low forecast error of {round(sumLowError / numForecasts, 2)}%')
